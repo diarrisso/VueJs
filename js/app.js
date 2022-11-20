@@ -9,40 +9,37 @@ const app = new Vue({
     data: {
         allowableTypes: ['jpeg', 'png'],
         maximumSize: 5000000,
-        selectedImage: null,
-        image: null,
         options: {
             url: 'http://localhost:63342/FormVue/Backend/ajax_file.php',
             type: "POST",
             processData: false,
             contentType: false,
-        }
-            /*image: {
+        },
+            image: {
                 size: '',
                 height: '',
                 width: ''
-            },*/
-           /* imgsrc: null,
-            imageError: ''*/
+            },
+          imgsrc: null,
+            imageError: ''
     },
 
         methods: {
-            /*selectedFile(e) {
+            selectedFile:function() {
                 this.imageError = '';
-                /!* this.image.size= '';
-              this.image.width= '';
-              this.image.height = '';*!/
-                const files = e.target.files[0];
+                this.image.size= '';
+                this.image.width= '';
+                this.image.height = '';
+                const files = this.$refs.file.files[0];
                 this.imgsrc = URL.createObjectURL(files)
                 let file = this.$refs.file.files[0];
                 console.log(file);
-
                 if (!file || file.type.indexOf('image/') !== 0) return;
                 this.image.size = file.size;
                 if (this.image.size > MAX_SIZE) {
                     console.log(this.image.size);
                     this.imageError = ` 1The image size (${this.image.size}) is too much (max is ${MAX_SIZE}).`;
-                    return;
+                    return false;
                 }
                 let reader = new FileReader();
                 reader.readAsDataURL(file);
@@ -54,10 +51,11 @@ const app = new Vue({
                         console.log(this.image);
                         if (this.image.width > MAX_WIDTH || this.image.height > MAX_HEIGHT) {
                             this.imageError = `Soit la largeur de image est trop grand  (${this.image.width}) ou la hauteur  (max is ${MAX_HEIGHT}).`;
-                            return;
+                            return false;
                         }
                         if (this.image.height < MIN_HEIGHT || this.image.width < MIN_WIDTH) {
-                            return this.imageError = ` image doit minum a ( MIN ${MIN_WIDTH}) ET LA HAUTEUR  (MIN is ${MIN_HEIGHT}).`;
+                            this.imageError = ` image doit minum a ( MIN ${MIN_WIDTH}) ET LA HAUTEUR  (MIN is ${MIN_HEIGHT}).`;
+                            return false;
                         }
 
 
@@ -68,25 +66,27 @@ const app = new Vue({
                 reader.onerror = evt => {
                     console.error(evt);
                 }
-
-            },*/
-            uploadFile: function (event) {
-                this.selectedImage = event.target.files[0]
+            },
+            onImageError(err){
+                console.log(err, 'erreur lors du transfere');
+            },
+            uploadFile() {
+                const files = this.$refs.file.files[0];
+                console.log(this.selectedFile());
                 //validate the image
-                if (!this.validate(this.selectedImage))
-                    return
+                if (this.selectedFile() === false) {
+                    alert('stop');
+                    return;
+                }
                 // create a form
                 const form = new FormData();
-                form.append('file', this.selectedImage);
+                form.append('file', files);
                 // submit the image
-                $.ajax(Object.assign({}, this.options, {data: form}))
-                    .then(this.createImage)
-                    .catch(this.onImageError);
-
-
+                $.ajax(Object.assign({}, this.options, {data: form})).then(this.createImage).catch(this.onImageError);
+                console.log('passt');
 
             },
-            validate(image) {
+            /*validate(image) {
                 if (!this.allowableTypes.includes(image.name.split(".").pop().toLowerCase())) {
                     alert(`Sorry you can only upload ${this.allowableTypes.join("|").toUpperCase()} files.`)
                     return false
@@ -101,8 +101,8 @@ const app = new Vue({
             },
             onImageError(err){
                 console.log(err, 'erreur lors du transfere');
-            },
-            changeImage(event) {
+            },*/
+           /* changeImage(event) {
                 this.selectedImage = event.target.files[0]
                 //validate the image
                 if (!this.validate(this.selectedImage))
@@ -114,14 +114,14 @@ const app = new Vue({
                 $.ajax(Object.assign({}, this.options, {data: form}))
                     .then(this.createImage)
                     .catch(this.onImageError);
-            },
-            createImage() {
+            },*/
+           /* createImage() {
                 const image = new Image()
                 const reader = new FileReader()
                 reader.onload = (e) => {
                     this.image = e.target.result
                 };
                 reader.readAsDataURL(this.selectedImage)
-            },
+            },*/
         },
     });
