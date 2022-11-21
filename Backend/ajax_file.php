@@ -2,7 +2,9 @@
 
 // File name
 
-$filename = '';
+$filename ='';
+
+
 
 
 if (isset($_FILES['file']['name']) && !empty($_FILES['file']['name'])) {
@@ -17,15 +19,62 @@ if (isset($_FILES['file']['name']) && !empty($_FILES['file']['name'])) {
     $password = 'root';
     $dbname = 'vujs';
 
+    error_log('la size est :'.$file_size);
+    error_log('la size est :'.$file_tmp);
+    error_log('la size est :'.$image);
+    error_log('la size est :'.$file_type);
 
-    error_log('>>>>><my file 1'.$image);
+    list( $width, $height , $file_type ) = getimagesize($file_tmp);
+    error_log('image file'.$height);
+    error_log('image file'.$width);
+
+    $max_width=576;
+    $max_height= 768;
+    $quality = 10;
+
+// Content type
+    header('Content-Type: image/jpeg');
+    # taller
+    if ($height > $max_height) {
+        $width = ($max_height / $height) * $width;
+        $new_height = $max_height;
+    }
+
+    # wider
+    if ($width > $max_width) {
+        $height = ($max_width / $width) * $height;
+        $new_width = $max_width;
+    }
+
+    switch ($file_type)
+    {
+        case 1: $im3 = imagecreatefrompng($file_tmp); break;
+        case 2: $im3 = imagecreatefromjpeg($file_tmp);  break;
+        default: return '';  break;
+    }
+
+
+    // Redimensionnement
+    $image_p = imagecreatetruecolor($new_width, $new_height);
+    imagecopyresampled($image_p, $im3, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+
+    // Affichage
+    imagejpeg($image_p, null, 100);
+
+
+    $imgResized = imagescale($im3 , $width, $height );
+    error_log('IMAGSCAL RETOUR :  VALUE'.$imgResized );
+    error_log('la largeur actuel de image '.$width);
+    imagejpeg($imgResized, 'simplex.jpg', $quality);
+
      $dbh = getConnection();
      if ($dbh) {
-         $Base_64 = base64_encode($file_name);
-         $stmt = $dbh->prepare("INSERT INTO Blog.image ( image.file)  VALUES ('$Base_64')");
+         //$Base_64 = base64_encode(imagejpeg($imgResized, 'simplex.jpg'));
+         $stmt = $dbh->prepare("INSERT INTO Blog.image ( image.file)  VALUES ('')");
          $stmt->execute();
      }
-
+    imagedestroy($im3);
+    imagedestroy($imgResized);
 
 
 // Valid file extensions
@@ -54,7 +103,7 @@ if (isset($_FILES['file']['name']) && !empty($_FILES['file']['name'])) {
         }
     }*/
 }
-exit;
+$max_height;
 
 /**
  * @return PDO

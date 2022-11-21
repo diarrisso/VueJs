@@ -41,11 +41,11 @@ const app = new Vue({
                 console.log('validation');
                 return false
             }
-            if (this.image.size > MAX_SIZE) {
+            /*if (this.image.size > MAX_SIZE) {
                 console.log(this.image.size);
                 this.imageError = ` 1The image size (${this.image.size}) is too much (max is ${MAX_SIZE}).`;
                 return false;
-            }
+            }*/
             let reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onload = evt => {
@@ -53,11 +53,13 @@ const app = new Vue({
                 img.onload = () => {
                     this.image.width = img.width;
                     this.image.height = img.height;
+                    console.log(this.image.height)
+                    console.log(this.image.width)
                     console.log(this.image);
-                    if (this.image.width > MAX_WIDTH || this.image.height > MAX_HEIGHT) {
+                   /* if (this.image.width > MAX_WIDTH || this.image.height > MAX_HEIGHT) {
                         this.imageError = `Soit la largeur de image est trop grand  (${this.image.width}) ou la hauteur  (max is ${MAX_HEIGHT}).`;
                         return false;
-                    }
+                    }*/
                     if (this.image.height < MIN_HEIGHT || this.image.width < MIN_WIDTH) {
                         this.imageError = ` image doit minum a ( MIN ${MIN_WIDTH}) ET LA HAUTEUR  (MIN is ${MIN_HEIGHT}).`;
                         return false;
