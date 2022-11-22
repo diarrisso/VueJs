@@ -55,26 +55,44 @@ if (isset($_FILES['file']['name']) && !empty($_FILES['file']['name'])) {
 
 
     // Redimensionnement
-    $image_p = imagecreatetruecolor($new_width, $new_height);
-    imagecopyresampled($image_p, $im3, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+    $image_p = imagecreatetruecolor($max_width, $max_height);
+
+    imagecopyresampled($image_p, $im3, 0, 0, 0, 0, $max_width, $max_height, $width, $height);
+
 
     // Affichage
-    imagejpeg($image_p, null, 100);
+    /*imagejpeg($image_p, null, 100);*/
 
 
-    $imgResized = imagescale($im3 , $width, $height );
-    error_log('IMAGSCAL RETOUR :  VALUE'.$imgResized );
+   /* $imgResized = imagescale($im3 , $width, $height );*/
+    /*error_log('IMAGSCAL RETOUR :  VALUE'.$imgResized );
     error_log('la largeur actuel de image '.$width);
-    imagejpeg($imgResized, 'simplex.jpg', $quality);
+    imagejpeg($imgResized, 'simplex.jpg', $quality);*/
 
      $dbh = getConnection();
      if ($dbh) {
          //$Base_64 = base64_encode(imagejpeg($imgResized, 'simplex.jpg'));
-         $stmt = $dbh->prepare("INSERT INTO Blog.image ( image.file)  VALUES ('')");
+         $bin_string = file_get_contents($file_tmp);
+         error_log('la largeur actuel de image '.$bin_string);
+         $hex_string = base64_encode($bin_string);
+         error_log('la largeur actuel de image '.$hex_string);
+         $stmt = $dbh->prepare("INSERT INTO Blog.image ( image.file)  VALUES ('$hex_string')");
          $stmt->execute();
+
+
      }
-    imagedestroy($im3);
-    imagedestroy($imgResized);
+
+
+
+
+
+
+
+
+
+
+   /* imagedestroy($im3);
+    imagedestroy($image_p);*/
 
 
 // Valid file extensions
@@ -103,7 +121,6 @@ if (isset($_FILES['file']['name']) && !empty($_FILES['file']['name'])) {
         }
     }*/
 }
-$max_height;
 
 /**
  * @return PDO
@@ -131,4 +148,21 @@ function getConnection()
     }
     return $conn;
 
+}
+
+
+$dbh = getConnection();
+$query = $dbh->query('SELECT  i.file FROM Blog.image i ');
+$query->execute();
+$result = $query->fetchAll();
+
+if ($result) {
+    foreach ($result as $value)
+
+        $imadata = array();
+
+    $imadata[] = $value;
+
+    echo json_encode(  array('decode' => $imadata));
+    exit();
 }
