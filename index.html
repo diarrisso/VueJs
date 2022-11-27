@@ -16,106 +16,244 @@
 </head>
 <body>
 <div id="app">
-    <header>
-        <img class="logo" src="https://content.codecademy.com/courses/vue-instances/ticket_logo.svg" alt="logo">
-        <h1> Vue Image upload Test</h1>
-    </header>
-  <div class="container">
-     <div v-if="imageError" class="imageError text-danger mt-5">
-          {{imageError}}
-      </div>  <div class=" m-5">
-           <input type="file" accept="image/*" ref="file" @change="selectedFile">
-            <button type="button" @click="uploadFile" class="btn btn-secondary" > submit   </button>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                </li>
+            </ul>
+            <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+            </a>
         </div>
+    </nav>
+<!--        <img class="logo" src="https://content.codecademy.com/courses/vue-instances/ticket_logo.svg" alt="logo">
+        <h1> Vue Image upload Test</h1>-->
+    <section style="background-color: #eee;">
+        <div class="container py-5">
+            <div class="row">
+                <div class="col">
+                    <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item"><a href="#edit">Edit Profile</a></li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card mb-4">
+                        <div class="card-body text-center bg-info">
+                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+                                 class="rounded-circle img-fluid" style="width: 576px;">
+                            <h2 class="my-3 font-weight-bold">Mamadi Diarrisso </h2>
+                            <p class="mb-1">Full Stack Developer</p>
+                            <div class="d-flex justify-content-center mb-2">
+<!--                                <a href="" class="btn btn-primary"> bild change </a>-->
+                                <input type="file" accept="image/*" ref="file" @change="selectedFile">
+                                <button type="button" @click="uploadFile" class="btn btn-secondary" > submit   </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card mb-4 mb-lg-0">
+                        <div class="card-body p-0">
+                            <ul class="list-group list-group-flush rounded-3">
+                                <li class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                    <i class="fas fa-globe fa-lg text-warning"></i>
+                                    <p class="mb-0">https://mdbootstrap.com</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="card mb-4">
+                        <div class="card-body ">
+                            <div class="row">
+                                <div class="col-sm-3 font-weight-bold">
+                                    <p class="mb-0">Full Name</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class=" mb-0 ">MAMADI DIARRISSO</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3 font-weight-bold">
+                                    <p class="mb-0">Address</p>
+                                </div>
+                                <div class="col-sm-9">
+                                    <p class=" mb-0 font-weight-normal text-white">Bay Area, San Francisco, CA</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card mb-4 mb-md-0">
+                                <div class="card-body">
+                                    <p class="mb-4"><span class="text-primary font-italic me-1">assigment</span> Project Status
+                                    </p>
+                                    <p class="mb-1" style="font-size: .77rem;">Web Design</p>
+                                    <div class="progress rounded" style="height: 5px;">
+                                        <div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="80"
+                                             aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <p class="mt-4 mb-1" style="font-size: .77rem;">Website Markup</p>
+                                    <div class="progress rounded" style="height: 5px;">
+                                        <div class="progress-bar" role="progressbar" style="width: 72%" aria-valuenow="72"
+                                             aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card mb-4 mb-md-0">
+                                <div class="card-body">
+                                    <p class="mb-4"><span class="text-primary font-italic me-1">assigment</span> Project Status
+                                    </p>
+                                    <p class="mb-1" style="font-size: .77rem;">Web Design</p>
+                                    <div class="progress rounded" style="height: 5px;">
+                                        <div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="80"
+                                             aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <p class="mt-4 mb-1" style="font-size: .77rem;">Website Markup</p>
+                                    <div class="progress rounded" style="height: 5px;">
+                                        <div class="progress-bar" role="progressbar" style="width: 72%" aria-valuenow="72"
+                                             aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <div class="container" id="edit" style="d">
+        <div v-if="imageError" class="imageError text-danger mt-5">
+            {{imageError}}
+        </div>  <div class=" m-5">
+        <input type="file" accept="image/*" ref="file" @change="selectedFile">
+        <button type="button" @click="uploadFile" class="btn btn-secondary" > submit   </button>
+    </div>
 
         <div>
             <img v-if="imgsrc" :src="imgsrc" class="imgpreview  img-fluid" >
         </div>
 
-<!--      <div v-for="folder in foldersList">-->
-      <div>
-          {{decodedStr}}
-      </div>
-
-  </div>
-
-  <!--  <form v-on:reset="resetFields" v-on:submit.prevent="submitForm">
-        <div class="form-row">
-            <div class="form-field">
-                <label for="first-name">First Name</label>
-                <input type="text" id="first-name" v-model.trim="firstName" />
-            </div>
-            <div class="form-field">
-                <label for="last-name">Last Name</label>
-                <input type="text" id="last-name" v-model.trim="lastName" />
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-field">
-                <label for="email">Email</label>
-                <input type="text" id="email" v-model.trim="email" />
-            </div>
-        </div>
-        <div class="form-row">
-            <div class="form-field">
-                <label for="ticket-quantity">Ticket Quantity</label>
-                <select id="ticket-quantity" v-model.number="ticketQuantity">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                </select>
-            </div>
-            <div class="form-field">
-                <legend>Ticket Type</legend>
-                <div>
-                    <input type="radio" id="general" value="general" v-model="ticketType">
-                    <label for="general">General Admission</label>
-                </div>
-                <div>
-                    <input type="radio" id="vip" value="vip" v-model="ticketType">
-                    <label for="vip">VIP</label>
-                </div>
-            </div>
-        </div>
-        <div class="form-row checkbox">
-            <fieldset>
-                <legend>How did you hear about this event?</legend>
-                <div>
-                    <input type="checkbox" id="friend" value="friend" v-model="referrals">
-                    <label for="friend">Friend</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="publication" value="publication" v-model="referrals">
-                    <label for="publication">Publication</label>
-                </div>
-                <div>
-                    <input type="checkbox" id="social-media" value="social" v-model="referrals">
-                    <label for="social-media">Social Media</label>
-                </div>
-            </fieldset>
-        </div>
-        <div class="form-row vertical">
-            <label for="requests">Special requests</label>
-            <textarea id="requests" v-model.trim="specialRequests"></textarea>
-        </div>
-        <div class="form-row vertical agreement checkbox">
-            <fieldset>
-                <legend>Purchase Agreement</legend>
-                <p>I, {{ fullName }}, wish to buy {{ ticketDescription }}. I understand that all ticket sales are final.</p>
-                <input type="checkbox" name="agreement" id="agree" v-model="purchaseAgreementSigned" />
-                <label for="agree">I Agree</label>
-            </fieldset>
-        </div>
-        <div class="form-row vertical">
-            <label for="signature">Signature</label>
-            <input id="signature" class="signature" />
-        </div>
         <div>
-            <button type="reset" class="reset">Reset</button>
-            <button type="submit" v-bind:disabled="!formIsValid">Confirm Tickets</button>
+            <img  :src="foldersList" />
         </div>
-    </form>-->
+
+        <!--      <div v-for="folder in foldersList">-->
+        <div>
+            {{decodedStr}}
+        </div>
+
+    </div>
+
+
+    <!--  <form v-on:reset="resetFields" v-on:submit.prevent="submitForm">
+          <div class="form-row">
+              <div class="form-field">
+                  <label for="first-name">First Name</label>
+                  <input type="text" id="first-name" v-model.trim="firstName" />
+              </div>
+              <div class="form-field">
+                  <label for="last-name">Last Name</label>
+                  <input type="text" id="last-name" v-model.trim="lastName" />
+              </div>
+          </div>
+          <div class="form-row">
+              <div class="form-field">
+                  <label for="email">Email</label>
+                  <input type="text" id="email" v-model.trim="email" />
+              </div>
+          </div>
+          <div class="form-row">
+              <div class="form-field">
+                  <label for="ticket-quantity">Ticket Quantity</label>
+                  <select id="ticket-quantity" v-model.number="ticketQuantity">
+                      <option>1</option>
+                      <option>2</option>
+                      <option>3</option>
+                      <option>4</option>
+                  </select>
+              </div>
+              <div class="form-field">
+                  <legend>Ticket Type</legend>
+                  <div>
+                      <input type="radio" id="general" value="general" v-model="ticketType">
+                      <label for="general">General Admission</label>
+                  </div>
+                  <div>
+                      <input type="radio" id="vip" value="vip" v-model="ticketType">
+                      <label for="vip">VIP</label>
+                  </div>
+              </div>
+          </div>
+          <div class="form-row checkbox">
+              <fieldset>
+                  <legend>How did you hear about this event?</legend>
+                  <div>
+                      <input type="checkbox" id="friend" value="friend" v-model="referrals">
+                      <label for="friend">Friend</label>
+                  </div>
+                  <div>
+                      <input type="checkbox" id="publication" value="publication" v-model="referrals">
+                      <label for="publication">Publication</label>
+                  </div>
+                  <div>
+                      <input type="checkbox" id="social-media" value="social" v-model="referrals">
+                      <label for="social-media">Social Media</label>
+                  </div>
+              </fieldset>
+          </div>
+          <div class="form-row vertical">
+              <label for="requests">Special requests</label>
+              <textarea id="requests" v-model.trim="specialRequests"></textarea>
+          </div>
+          <div class="form-row vertical agreement checkbox">
+              <fieldset>
+                  <legend>Purchase Agreement</legend>
+                  <p>I, {{ fullName }}, wish to buy {{ ticketDescription }}. I understand that all ticket sales are final.</p>
+                  <input type="checkbox" name="agreement" id="agree" v-model="purchaseAgreementSigned" />
+                  <label for="agree">I Agree</label>
+              </fieldset>
+          </div>
+          <div class="form-row vertical">
+              <label for="signature">Signature</label>
+              <input id="signature" class="signature" />
+          </div>
+          <div>
+              <button type="reset" class="reset">Reset</button>
+              <button type="submit" v-bind:disabled="!formIsValid">Confirm Tickets</button>
+          </div>
+      </form>-->
 </div>
 
 </body>

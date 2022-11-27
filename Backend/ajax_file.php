@@ -9,7 +9,7 @@ $filename ='';
 
 if (isset($_FILES['file']['name']) && !empty($_FILES['file']['name'])) {
     $image = $_FILES['file']['name'];
-    $file_name = $_FILES['file']['name'];
+    $file_name = basename($_FILES['file']['name']);
     $file_size = $_FILES['file']['size'];
     $file_tmp = $_FILES['file']['tmp_name'];
     $file_type = $_FILES['file']['type'];
@@ -33,62 +33,37 @@ if (isset($_FILES['file']['name']) && !empty($_FILES['file']['name'])) {
     $quality = 10;
 
 // Content type
-    header('Content-Type: image/jpeg');
-    # taller
-    if ($height > $max_height) {
-        $width = ($max_height / $height) * $width;
-        $new_height = $max_height;
-    }
 
-    # wider
+
     if ($width > $max_width) {
-        $height = ($max_width / $width) * $height;
-        $new_width = $max_width;
+        $image_p = imagecreatetruecolor($max_width, $max_height);
+
+        switch ($file_type)
+        {
+            case 1: $im3 = imagecreatefrompng($file_tmp); break;
+            case 2: $im3 = imagecreatefromjpeg($file_tmp);  break;
+            default: return '';  break;
+        }
+        imagecopyresampled($image_p, $im3, 0, 0, 0, 0, $max_width, $max_height, $width, $height);
+
+        if ($file_type === 'image/png') {
+            imagepng($im3, $file_name, $quality);
+
+        } else {
+            imagejpeg($im3, $file_name, $quality);
+        }
+
     }
 
-    switch ($file_type)
-    {
-        case 1: $im3 = imagecreatefrompng($file_tmp); break;
-        case 2: $im3 = imagecreatefromjpeg($file_tmp);  break;
-        default: return '';  break;
-    }
-
-
-    // Redimensionnement
-    $image_p = imagecreatetruecolor($max_width, $max_height);
-
-    imagecopyresampled($image_p, $im3, 0, 0, 0, 0, $max_width, $max_height, $width, $height);
-
-
-    // Affichage
-    /*imagejpeg($image_p, null, 100);*/
-
-
-   /* $imgResized = imagescale($im3 , $width, $height );*/
-    /*error_log('IMAGSCAL RETOUR :  VALUE'.$imgResized );
-    error_log('la largeur actuel de image '.$width);
-    imagejpeg($imgResized, 'simplex.jpg', $quality);*/
 
      $dbh = getConnection();
      if ($dbh) {
          //$Base_64 = base64_encode(imagejpeg($imgResized, 'simplex.jpg'));
-         $bin_string = file_get_contents($file_tmp);
-         error_log('la largeur actuel de image '.$bin_string);
-         $hex_string = base64_encode($bin_string);
-         error_log('la largeur actuel de image '.$hex_string);
-         $stmt = $dbh->prepare("INSERT INTO Blog.image ( image.file)  VALUES ('$hex_string')");
+         $base64 = base64_encode(file_get_contents($file_name));
+         $stmt = $dbh->prepare("INSERT INTO Blog.image ( image.file)  VALUES ('$base64')");
          $stmt->execute();
 
-
      }
-
-
-
-
-
-
-
-
 
 
    /* imagedestroy($im3);
@@ -152,7 +127,7 @@ function getConnection()
 
 
 $dbh = getConnection();
-$query = $dbh->query('SELECT  i.file FROM Blog.image i ');
+$query = $dbh->query('SELECT  i.file FROM Blog.image i where i.id = 19 limit 1',);
 $query->execute();
 $result = $query->fetchAll();
 
@@ -161,8 +136,8 @@ if ($result) {
 
         $imadata = array();
 
-    $imadata[] = $value;
+    $imadata['file'] = $value;
 
-    echo json_encode(  array('decode' => $imadata));
+    echo json_encode( array('data' => $imadata ));
     exit();
 }

@@ -9,11 +9,25 @@ const app = new Vue({
     data: {
         allowableTypes: ['jpeg','png'],
         maximumSize: 5000000,
+        foldersList: [],
+        decodedStr:'',
         options: {
             url: 'http://localhost:63342/FormVue/Backend/ajax_file.php',
-            type: "POST",
-            processData: false,
+            method: 'POST',
+           processData: false,
             contentType: false,
+            success: function (data) {
+
+                const obj = JSON.parse(data);
+
+                console.log(obj.data.file.file);
+                self.foldersList = data;
+                this.foldersList = `data:image/jpeg;base64,${obj.data.file.file}`;
+                console.log(this.foldersList)
+                console.log(this.foldersList[0])
+
+
+            },
         },
         image: {
             size: '',
@@ -23,9 +37,19 @@ const app = new Vue({
         imgsrc: null,
         imageError: ''
     },
+    created () {
+        this.buildFolders()
+    },
 
     methods: {
-        selectedFile: function () {
+
+        buildFolders: function () {
+            this.decodedStr = atob(this.foldersList);
+
+        },
+
+
+            selectedFile: function () {
             this.imageError = '';
             this.image.size = '';
             this.image.width = '';
