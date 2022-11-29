@@ -8,6 +8,7 @@ const app = new Vue({
     el: '#app',
     data: {
         allowableTypes: ['jpeg','png'],
+        showModal: false,
         maximumSize: 5000000,
         foldersList: [],
         decodedStr:'',
@@ -42,6 +43,28 @@ const app = new Vue({
     },
 
     methods: {
+        openModal: function () {
+            this.showModal = true
+            console.log('rest');
+        },
+
+        /**
+         * when clicking on button in bootstrap
+         * the modal style set to display and after that a show class add to modal
+         * so to do that we will show modal-backdrop and set modal display to block
+         * then after that we will add show class to the modal and we will use setTimeout
+         * to add show class because we want show class to add after the modal-backdrop show and modal display change
+         * to make modal animation work
+         *
+         */
+        toggleModal() {
+            const body = document.querySelector("body");
+            this.active = !this.active;
+            this.active
+                ? body.classList.add("modal-open")
+                : body.classList.remove("modal-open");
+            setTimeout(() => (this.show = !this.show), 10);
+        },
 
         buildFolders: function () {
             this.decodedStr = atob(this.foldersList);
